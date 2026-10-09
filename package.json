@@ -1,6 +1,6 @@
 {
   "name": "playcover-skills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Agent Skill package that documents PlayCover's headless CLI — install/uninstall/launch/sign iOS apps, manage keymaps, sources, settings, dylibs, and global config from the terminal.",
   "license": "MIT",
   "repository": {
