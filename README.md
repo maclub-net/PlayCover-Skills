@@ -1,5 +1,7 @@
 # PlayCover CLI Skills
 
+**English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md)
+
 An agent Skill package that teaches AI coding assistants (and humans) how to drive [PlayCover](https://github.com/PlayCover/PlayCover) from the **command line** — installing, uninstalling, launching, signing, and exporting iOS apps, managing keymaps, IPA sources, per-app settings, user dylibs, and global preferences, all **headlessly** (no GUI).
 
 In the AI era, software that only exposes a GUI is unreachable by agents, scripts, and CI. This Skill documents PlayCover's text interface so any LLM/agent/shell pipeline can operate PlayCover end-to-end.
@@ -8,31 +10,43 @@ In the AI era, software that only exposes a GUI is unreachable by agents, script
 
 ```
 PlayCover-Skills/
-├── README.md                ← you are here
-├── README.zh-CN.md          ← 中文版
+├── README.md                ← you are here (English)
+├── README.zh-CN.md           ← 简体中文
+├── README.zh-TW.md           ← 繁體中文
+├── README.ja.md              ← 日本語
+├── README.ko.md              ← 한국어
+├── README.es.md              ← Español
+├── README.fr.md              ← Français
+├── README.de.md              ← Deutsch
+├── README.pt-BR.md           ← Português (Brasil)
+├── README.ru.md              ← Русский
+├── package.json              ← npm package metadata (for npx install)
+├── install.mjs               ← npx installer (copies skill into .agents/skills/)
 └── playcover-cli/
-    ├── SKILL.md              ← main skill (English) — agent loads this
-    ├── SKILL.zh-CN.md        ← Chinese mirror of the main skill (for humans)
-    └── references/           ← one file per command area (detailed)
-        ├── dispatch.md         when CLI mode runs vs. the GUI
-        ├── conventions.md      stdout/stderr, --json, progress, exit codes
-        ├── app-lifecycle.md    install / export / uninstall / launch / sign
+    ├── SKILL.md                ← main skill (English) — agent loads this
+    ├── SKILL.zh-CN.md          ← Chinese mirror of the main skill (for humans)
+    └── references/             ← one file per command area (detailed)
+        ├── dispatch.md          when CLI mode runs vs. the GUI
+        ├── conventions.md       stdout/stderr, --json, progress, exit codes
+        ├── app-lifecycle.md     install / export / uninstall / launch / sign
         ├── app-maintenance.md   clear-cache / clear-play-chain / show-in-finder / open-container / prune
-        ├── app-query.md         list / info
-        ├── aliases.md           alias create / remove
-        ├── keymaps.md           keymap list / create / delete / rename / set-default / reset / import / export
-        ├── app-settings.md      settings list / get / set / reset
-        ├── sources.md           source list / add / remove / refresh / enable / disable
-        ├── store.md             store list
-        ├── download.md          download (bundle ID or URL) + checksum verify
-        ├── playtools.md         playtools install
-        ├── dylibs.md            dylib list / add / remove
-        └── config.md            config list / get / set (global prefs)
+        ├── app-query.md          list / info
+        ├── aliases.md            alias create / remove
+        ├── keymaps.md            keymap list / create / delete / rename / set-default / reset / import / export
+        ├── app-settings.md       settings list / get / set / reset
+        ├── sources.md            source list / add / remove / refresh / enable / disable
+        ├── store.md              store list
+        ├── download.md           download (bundle ID or URL) + checksum verify
+        ├── playtools.md          playtools install
+        ├── dylibs.md             dylib list / add / remove
+        ├── config.md             config list / get / set (global prefs)
+        └── where-to-get-ipas.md  where to find IPA files
 ```
 
 ## Prerequisites
 
 - **PlayCover built with the CLI feature.** The CLI is part of the same `PlayCover.app` binary as of the `feat/cli-mode` branch / PR [#2238](https://github.com/PlayCover/PlayCover/pull/2238). If your installed `PlayCover.app` predates this, rebuild from source.
+- Node.js >= 18 (only if you use the `npx` installer).
 - Verify the CLI is available:
 
   ```bash
@@ -41,37 +55,46 @@ PlayCover-Skills/
 
   It should print a subcommand list. If it opens the GUI instead, your build is too old.
 
-## Download
+## Install
+
+This is a **project-scoped agent Skill**. Once installed into a project's `.agents/skills/` folder, agents (Trae, Claude Code, etc.) auto-discover it.
+
+### Option 1 — npx (no clone required)
+
+The fastest path. Run this from the **root of the project** where you want the skill active:
 
 ```bash
-git clone https://github.com/maclub-net/PlayCover-Skills.git
+npx playcover-skills
 ```
 
-Or, if you only need the skill and not the READMEs:
+Or, before npm publish (run straight from GitHub):
+
+```bash
+npx github:maclub-net/PlayCover-Skills
+```
+
+The installer copies `playcover-cli/` into `./.agents/skills/playcover-cli` and prints next steps.
+
+Flags:
+
+```bash
+npx playcover-skills --path /Users/you/code/some-project  # install into another project
+npx playcover-skills --force                              # overwrite existing install
+npx playcover-skills --uninstall                          # remove the skill
+```
+
+### Option 2 — git clone + manual copy
 
 ```bash
 git clone --depth 1 https://github.com/maclub-net/PlayCover-Skills.git
-```
-
-## Install
-
-This is a **project-scoped Trae/agent Skill**. To make it available inside a project, drop the `playcover-cli/` directory into that project's `.agents/skills/` folder.
-
-### Option A — install into a specific project
-
-```bash
-# from the cloned repo
 cd PlayCover-Skills
 
-# target any project you want the skill active in
 TARGET="/Users/you/code/some-project"
 mkdir -p "$TARGET/.agents/skills"
 cp -R playcover-cli "$TARGET/.agents/skills/playcover-cli"
 ```
 
-Restart your editor / agent session in that project. The skill will be auto-discovered and appear as `playcover-cli` in the skill list.
-
-### Option B — symlink (keep it in sync with this repo)
+### Option 3 — symlink (keep it in sync with this repo)
 
 ```bash
 TARGET="/Users/you/code/some-project"
@@ -81,9 +104,9 @@ ln -s "$(pwd)/playcover-cli" "$TARGET/.agents/skills/playcover-cli"
 
 `git pull` in `PlayCover-Skills` then updates the skill everywhere it's symlinked.
 
-### Option C — global install (available across all projects)
+### Option 4 — global install (available across all projects)
 
-Drop `playcover-cli/` into your agent framework's global skills directory. For Trae, this is typically the user-level skills folder; consult your agent's documentation for the exact path.
+Drop `playcover-cli/` into your agent framework's global skills directory. For Trae, this is the user-level skills folder; consult your agent's documentation for the exact path.
 
 ## Verify it loaded
 
@@ -133,6 +156,22 @@ $BIN config set ShowUninstallPopup false
 - No GUI dialogs in CLI mode — commands fail fast to stderr instead of hanging.
 
 See [playcover-cli/SKILL.md](playcover-cli/SKILL.md) for the full overview and [playcover-cli/references/](playcover-cli/references) for per-command detail.
+
+## Registries & platforms
+
+`playcover-cli` follows the open [Agent Skills](https://github.com/anthropics/skills) format (`SKILL.md` + `references/`), so it loads in any compatible agent. It's listed on:
+
+| Platform | Status | Install / listing |
+|---|---|---|
+| **npm** | Available | `npx playcover-skills` · [npmjs.com/package/playcover-skills](https://www.npmjs.com/package/playcover-skills) |
+| **GitHub** | Source of truth | [maclub-net/PlayCover-Skills](https://github.com/maclub-net/PlayCover-Skills) |
+| **ComposioHQ/awesome-claude-skills** | Listed | [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) — Development category |
+| **awesome-skills.com** | Auto-indexed | [awesome-skills.com](https://awesome-skills.com) |
+| **LobeHub Skills** | Auto-indexed | [lobehub.com/skills](https://lobehub.com/skills) |
+| **TRAE Skills marketplace** | Auto-indexed | built into the TRAE IDE |
+| **Smithery Skills** | Available | `smithery skill add maclub-net/PlayCover-Skills` |
+
+To list this skill on a new platform, open an issue or PR — contributions welcome.
 
 ## License
 

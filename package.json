@@ -1,0 +1,42 @@
+{
+  "name": "playcover-skills",
+  "version": "1.0.0",
+  "description": "Agent Skill package that documents PlayCover's headless CLI — install/uninstall/launch/sign iOS apps, manage keymaps, sources, settings, dylibs, and global config from the terminal.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maclub-net/PlayCover-Skills.git"
+  },
+  "homepage": "https://github.com/maclub-net/PlayCover-Skills#readme",
+  "bugs": {
+    "url": "https://github.com/maclub-net/PlayCover-Skills/issues"
+  },
+  "keywords": [
+    "playcover",
+    "cli",
+    "skill",
+    "agent",
+    "ai",
+    "claude",
+    "trae",
+    "llm",
+    "ios",
+    "macos",
+    "ipa"
+  ],
+  "type": "module",
+  "bin": {
+    "playcover-skills": "install.mjs"
+  },
+  "files": [
+    "playcover-cli/",
+    "install.mjs",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "install:skill": "node install.mjs"
+  }
+}
