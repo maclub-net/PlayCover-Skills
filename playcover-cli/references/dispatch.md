@@ -53,6 +53,6 @@ If you ran `PlayCover <something>` and got the GUI, the first argument was not r
 1. **Misspelled subcommand** — subcommand names are kebab-case (`clear-cache`, not `clearCache` or `clear cache`).
 2. **Leading flag** — `PlayCover --foo list` boots GUI because `--foo` is not a subcommand. Put the subcommand first: `PlayCover list --foo`.
 3. **Wrong binary** — you ran a wrapper script that strips `argv[1]`. Call the binary inside the bundle directly: `PlayCover.app/Contents/MacOS/PlayCover`.
-4. **Not yet installed/updated** — the installed `PlayCover.app` predates the CLI. Rebuild/reinstall.
+4. **Not yet installed/updated** — the installed `PlayCover.app` predates the CLI. The CLI is not in any upstream PlayCover release yet (it's pending in [PR #2238](https://github.com/PlayCover/PlayCover/pull/2238)). Install a maclub fork build from the [Mac Club appstore](https://www.maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG) or [maclub-net/PlayCover/releases](https://github.com/maclub-net/PlayCover/releases) and replace your `PlayCover.app`.
 
 Run `PlayCover --help` to confirm the binary supports subcommands.

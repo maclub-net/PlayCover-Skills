@@ -45,7 +45,9 @@ PlayCover-Skills/
 
 ## 前提条件
 
-- **CLI 機能付きでビルドされた PlayCover。** `feat/cli-mode` ブランチ / PR [#2238](https://github.com/PlayCover/PlayCover/pull/2238) 以降、CLI は同じ `PlayCover.app` バイナリの一部です。インストール済みの `PlayCover.app` がこれより古い場合は、ソースからリビルドしてください。
+- **CLI 機能付きでビルドされた PlayCover。** CLI は [PR #2238](https://github.com/PlayCover/PlayCover/pull/2238)（`feat/cli-mode` ブランチ）経由で上流にコントリビュートされており、**まだ公式の PlayCover リリースには含まれていません**。PR のレビュー中は、**maclub フォークビルド**を使用してください。2 つのダウンロード元：
+  - **Mac Club appstore**（ブラウザ UI、厳選リスト）：[maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG](https://www.maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG)
+  - **GitHub Releases**（直接 DMG）：[maclub-net/PlayCover/releases](https://github.com/maclub-net/PlayCover/releases) — 最新の `PlayCover_*.dmg` をダウンロードし、マウントして `PlayCover.app` を `/Applications` にドラッグします。この DMG は Apple によって署名・公証済みのため、Gatekeeper の警告なしで開けます。
 - Node.js >= 18（`npx` インストーラを使用する場合のみ）。
 - CLI が利用可能か確認：
 
@@ -53,7 +55,7 @@ PlayCover-Skills/
   PlayCover.app/Contents/MacOS/PlayCover --help
   ```
 
-  サブコマンドリストが出力されるはずです。GUI が開いてしまう場合は、ビルドが古すぎます。
+  サブコマンドリストが出力されるはずです。GUI が開いてしまう場合は、ビルドが CLI より前のものです — より新しい maclub ビルドをインストールしてください。
 
 ## インストール
 

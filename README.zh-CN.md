@@ -45,7 +45,9 @@ PlayCover-Skills/
 
 ## 前置条件
 
-- **需以 CLI 功能构建的 PlayCover。** 自 `feat/cli-mode` 分支 / PR [#2238](https://github.com/PlayCover/PlayCover/pull/2238) 起，CLI 是同一个 `PlayCover.app` 二进制的一部分。若你已安装的 `PlayCover.app` 早于此，请从源码重新构建。
+- **需以 CLI 功能构建的 PlayCover。** CLI 通过 [PR #2238](https://github.com/PlayCover/PlayCover/pull/2238)（`feat/cli-mode` 分支）上游贡献，目前**尚未包含在任何正式的 PlayCover 发布版本中**。在 PR 审核期间，请使用 **maclub fork 构建**。两个下载渠道：
+  - **Mac Club appstore**（浏览器界面，精选列表）：[maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG](https://www.maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG)
+  - **GitHub Releases**（直接下 DMG）：[maclub-net/PlayCover/releases](https://github.com/maclub-net/PlayCover/releases) — 下载最新的 `PlayCover_*.dmg`，挂载后将 `PlayCover.app` 拖入 `/Applications`。该 DMG 由 Apple 签名并公证，打开时不会有 Gatekeeper 警告。
 - Node.js >= 18（仅当你使用 `npx` 安装器时需要）。
 - 验证 CLI 可用：
 
@@ -53,7 +55,7 @@ PlayCover-Skills/
   PlayCover.app/Contents/MacOS/PlayCover --help
   ```
 
-  它应打印出子命令列表。若反而打开了 GUI，说明你的构建版本过旧。
+  它应打印出子命令列表。若反而打开了 GUI，说明你的构建早于 CLI — 请安装较新的 maclub 构建。
 
 ## 安装
 

@@ -45,7 +45,9 @@ PlayCover-Skills/
 
 ## Предварительные требования
 
-- **PlayCover, собранный с функцией CLI.** Начиная с ветки `feat/cli-mode` / PR [#2238](https://github.com/PlayCover/PlayCover/pull/2238), CLI является частью того же бинарника `PlayCover.app`. Если ваш установленный `PlayCover.app` более старый, пересоберите из исходников.
+- **PlayCover, собранный с функцией CLI.** CLI вносится в upstream через [PR #2238](https://github.com/PlayCover/PlayCover/pull/2238) (ветка `feat/cli-mode`) и **пока не является частью официального релиза PlayCover**. Пока PR рассматривается, используйте **сборку форка maclub**. Два источника загрузки:
+  - **Mac Club appstore** (браузерный интерфейс, курируемый список): [maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG](https://www.maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG)
+  - **GitHub Releases** (прямой DMG): [maclub-net/PlayCover/releases](https://github.com/maclub-net/PlayCover/releases) — скачайте последний `PlayCover_*.dmg`, смонтируйте его и перетащите `PlayCover.app` в `/Applications`. DMG подписан и нотаризован Apple, поэтому открывается без предупреждений Gatekeeper.
 - Node.js >= 18 (только если используете установщик `npx`).
 - Проверьте, что CLI доступен:
 
@@ -53,7 +55,7 @@ PlayCover-Skills/
   PlayCover.app/Contents/MacOS/PlayCover --help
   ```
 
-  Он должен вывести список подкоманд. Если вместо этого открывается GUI, ваша сборка слишком старая.
+  Он должен вывести список подкоманд. Если вместо этого открывается GUI, ваша сборка предшествует CLI — установите более новую сборку maclub.
 
 ## Установка
 

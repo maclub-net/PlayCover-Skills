@@ -7,7 +7,24 @@ description: 通过命令行驱动 PlayCover 的指南。当用户想用 CLI（�
 
 PlayCover 在 SwiftUI 应用之外，还内置了一套**无头命令行界面**。同一个 `PlayCover.app` 二进制既能以 GUI 运行（双击、Dock、`open -a`、URL scheme、拖入 `.ipa`），**也能**作为 CLI 运行，取决于第一个参数。本 Skill 文档化所有子命令，让你可以在脚本、CI 和 AI agent 中驱动 PlayCover，全程不碰任何 GUI 窗口。
 
-> 这是 [SKILL.md](SKILL.md) 的中文镜像，供人类阅读。Agent 加载时使用英文版 `SKILL.md`。详细参考文件均为英文，位于 `references/`。
+## 获取带 CLI 的 PlayCover 构建
+
+CLI 通过 [PlayCover PR #2238](https://github.com/PlayCover/PlayCover/pull/2238)（`feat/cli-mode` 分支）提交给上游，目前**尚未进入任何上游 PlayCover 正式版本**——`PlayCover/PlayCover` 官方构建在收到子命令时仍会打开 GUI。
+
+在 PR 合并前，请使用 **maclub fork 构建**。两个下载渠道：
+
+1. **Mac 俱乐部应用商店**（浏览器界面，精选列表）：[maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG](https://www.maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG)
+2. **GitHub Releases**（直接下 DMG）：[github.com/maclub-net/PlayCover/releases](https://github.com/maclub-net/PlayCover/releases) —— 下载最新的 `PlayCover_*.dmg`，挂载后把 `PlayCover.app` 拖到 `/Applications`。DMG 已由 Apple 签名并公证，打开时不会有 Gatekeeper 警告。
+
+验证 CLI 是否可用：
+
+```bash
+/Applications/PlayCover.app/Contents/MacOS/PlayCover --help
+```
+
+应打印子命令列表。如果打开了 GUI，说明构建早于 CLI——安装更新的 maclub 构建即可。
+
+> 偏好从源码构建的用户也可以签出上游的 [`feat/cli-mode`](https://github.com/PlayCover/PlayCover/tree/feat/cli-mode) 分支用 Xcode 编译——但 maclub DMG 是最快的路径。
 
 ## 何时使用
 

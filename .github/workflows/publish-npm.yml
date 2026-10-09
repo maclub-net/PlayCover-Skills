@@ -1,0 +1,77 @@
+# Publish the playcover-skills package to npmjs.com.
+#
+# Triggers:
+#   - Push of a `v*.*.*` tag (e.g. v1.0.1, v1.1.0) → publishes that version
+#   - Manual run via the Actions tab ("Run workflow" button)
+#
+# Setup (one-time):
+#   1. Generate an npm access token (granular, publish permission for
+#      `playcover-skills`) at https://www.npmjs.com/settings/~/tokens
+#   2. Add it as a repository secret named `NPM_TOKEN` under
+#      Settings → Secrets and variables → Actions
+#   3. Bump `version` in package.json, commit, then push a tag:
+#        git tag v1.0.1
+#        git push origin v1.0.1
+#   4. The workflow publishes to npm. First publish of a new major/minor
+#      may go through npm's staged-publication review; subsequent
+#      publishes of the same major/minor skip review.
+
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write  # required for npm --provenance
+
+concurrency:
+  group: publish-npm-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify package version matches tag
+        run: |
+          TAG_VERSION="${GITHUB_REF##*/v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "Tag version:    $TAG_VERSION"
+          echo "Package version: $PKG_VERSION"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag version ($TAG_VERSION) does not match package.json version ($PKG_VERSION)"
+            exit 1
+          fi
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "### Publish result" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "Published \`playcover-skills@$VERSION\` to npm." >> $GITHUB_STEP_SUMMARY
+            echo "View at: https://www.npmjs.com/package/playcover-skills" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Publish failed. Check logs above." >> $GITHUB_STEP_SUMMARY
+          fi

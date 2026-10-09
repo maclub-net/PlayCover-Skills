@@ -7,6 +7,25 @@ description: Guide for driving PlayCover from the command line. Use when the use
 
 PlayCover ships a **headless command-line interface** alongside its SwiftUI app. The same `PlayCover.app` binary runs as a GUI (double-click, Dock, `open -a`, URL scheme, dropped `.ipa`) **or** as a CLI, depending on the first argument. This skill documents every subcommand so you can drive PlayCover from scripts, CI, and AI agents without touching a GUI window.
 
+## Getting a PlayCover build that includes the CLI
+
+The CLI is contributed upstream via [PlayCover PR #2238](https://github.com/PlayCover/PlayCover/pull/2238) (branch `feat/cli-mode`) and is **not yet part of any upstream PlayCover release** — official builds from `PlayCover/PlayCover` open the GUI when given a subcommand.
+
+Until the PR merges, use a **maclub fork build**. Two download sources:
+
+1. **Mac Club appstore** (browser UI, curated listing): [maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG](https://www.maclub.net/appstore/01HSACVCVC0HZGBD3BQX6QY1VG)
+2. **GitHub Releases** (direct DMG): [github.com/maclub-net/PlayCover/releases](https://github.com/maclub-net/PlayCover/releases) — download the latest `PlayCover_*.dmg`, mount it, and drag `PlayCover.app` into `/Applications`. The DMG is signed and notarized by Apple, so it opens without Gatekeeper warnings.
+
+Verify the CLI is present:
+
+```bash
+/Applications/PlayCover.app/Contents/MacOS/PlayCover --help
+```
+
+It should print a subcommand list. If it opens the GUI instead, the build predates the CLI — install a newer maclub build.
+
+> Users who prefer to build from source can also check out the [`feat/cli-mode`](https://github.com/PlayCover/PlayCover/tree/feat/cli-mode) branch of upstream and build with Xcode — but the maclub DMG is the fastest path.
+
 ## When to use
 
 - The user wants to script / automate / batch PlayCover operations.
